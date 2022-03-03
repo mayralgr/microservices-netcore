@@ -15,15 +15,17 @@ jobs:
     - uses: actions/checkout@v2
     - name: where are we
       run: pwd
+    - name: list some key files
+      run: ls -lrt
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies for ProductAPI
-      run: dotnet restore Services/Mango.Services.ProductAPI
+      run: dotnet restore MangoRestaurant/Services/Mango.Services.ProductAPI
     - name: Build ProductAPI
-      run: dotnet build Services/Mango.Services.ProductAPI --no-restore
+      run: dotnet build MangoRestaurant/Services/Mango.Services.ProductAPI --no-restore
     - name: Restore dependencies for FrontEnd
-      run: dotnet restore FrontEnd/Mango.Web
+      run: dotnet restore MangoRestaurant/FrontEnd/Mango.Web
     - name: Build FrontEnd
-      run: dotnet build FrontEnd/Mango.Web --no-restore
+      run: dotnet build MangoRestaurant/FrontEnd/Mango.Web --no-restore

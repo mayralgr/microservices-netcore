@@ -13,13 +13,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: where are we
+      run: pwd
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Restore dependencies for ProductAPI
+      run: dotnet restore Services/Mango.Services.ProductAPI
     - name: Build ProductAPI
       run: dotnet build Services/Mango.Services.ProductAPI --no-restore
+    - name: Restore dependencies for FrontEnd
+      run: dotnet restore FrontEnd/Mango.Web
     - name: Build FrontEnd
       run: dotnet build FrontEnd/Mango.Web --no-restore

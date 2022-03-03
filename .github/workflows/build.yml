@@ -22,10 +22,10 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies for ProductAPI
-      run: dotnet restore MangoRestaurant/Services/Mango.Services.ProductAPI
+      run: dotnet restore MangoRestaurant/Mango.Services.ProductAPI
     - name: Build ProductAPI
-      run: dotnet build MangoRestaurant/Services/Mango.Services.ProductAPI --no-restore
+      run: dotnet build MangoRestaurant/Mango.Services.ProductAPI --no-restore
     - name: Restore dependencies for FrontEnd
-      run: dotnet restore MangoRestaurant/FrontEnd/Mango.Web
+      run: dotnet restore MangoRestaurant/Mango.Web
     - name: Build FrontEnd
-      run: dotnet build MangoRestaurant/FrontEnd/Mango.Web --no-restore
+      run: dotnet build MangoRestaurant/Mango.Web --no-restore

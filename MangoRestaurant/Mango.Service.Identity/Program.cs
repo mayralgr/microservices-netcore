@@ -1,5 +1,31 @@
-var builder = WebApplication.CreateBuilder(args);
+using Mango.Service.Identity;
+using Mango.Service.Identity.DBContexts;
+using Mango.Service.Identity.Initializer;
+using Mango.Service.Identity.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+builder.Services.AddIdentityServer(options =>
+{
+    options.Events.RaiseErrorEvents = true;
+    options.Events.RaiseInformationEvents = true;
+    options.Events.RaiseFailureEvents = true;
+    options.Events.RaiseSuccessEvents = true;
+    options.EmitStaticAudienceClaim = true;
+}).AddInMemoryIdentityResources(SD.IdentityResources)
+.AddInMemoryApiScopes(SD.ApiScopes)
+.AddInMemoryClients(SD.Clients)
+.AddAspNetIdentity<ApplicationUser>()
+.AddDeveloperSigningCredential();
+
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -17,11 +43,20 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseIdentityServer();
 app.UseAuthorization();
-
+SeedDatabase();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+}

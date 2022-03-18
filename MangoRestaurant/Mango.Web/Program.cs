@@ -9,6 +9,24 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<IProductService,ProductService>();
 SD.ProductAPIBase = builder.Configuration["ServiceUrls:ProductAPI"];
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = "Cookies";
+    options.DefaultChallengeScheme = "oidc";
+}).AddCookie("Cookies", c => c.ExpireTimeSpan = TimeSpan.FromMinutes(10))
+.AddOpenIdConnect("oidc", o =>
+{
+    o.Authority = builder.Configuration["ServiceUrls:IdentityAPI"];
+    o.GetClaimsFromUserInfoEndpoint = true;
+    o.ClientId = "mango";
+    o.ClientSecret = "secure"; // pass this to app settings
+    o.ResponseType = "code";
+    o.TokenValidationParameters.NameClaimType = "name";
+    o.TokenValidationParameters.RoleClaimType = "role";
+    o.Scope.Add("mango"); // to app settings too
+    o.SaveTokens = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,7 +41,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

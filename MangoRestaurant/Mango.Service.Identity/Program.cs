@@ -2,6 +2,7 @@ using Mango.Service.Identity;
 using Mango.Service.Identity.DBContexts;
 using Mango.Service.Identity.Initializer;
 using Mango.Service.Identity.Models;
+using MangoRestaurant;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,12 +24,13 @@ builder.Services.AddIdentityServer(options =>
 .AddInMemoryApiScopes(SD.ApiScopes)
 .AddInMemoryClients(SD.Clients)
 .AddAspNetIdentity<ApplicationUser>()
-.AddDeveloperSigningCredential();
+.AddDeveloperSigningCredential()
+.AddTestUsers(TestUsers.Users);
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-
+//builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -46,10 +48,10 @@ app.UseRouting();
 app.UseIdentityServer();
 app.UseAuthorization();
 SeedDatabase();
-app.MapControllerRoute(
+/*app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");*/
+app.MapRazorPages();
 app.Run();
 
 void SeedDatabase()

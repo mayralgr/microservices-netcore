@@ -1,4 +1,5 @@
 ﻿using Mango.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -21,6 +22,15 @@ namespace Mango.Web.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+        [Authorize]
+        public IActionResult Login()
+        {
+            return RedirectToAction("Index");
+        }
+        public IActionResult Logout()
+        {
+            return SignOut("Cookies","oidc");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

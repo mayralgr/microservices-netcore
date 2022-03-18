@@ -21,6 +21,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+    - name: Restore dependencies for IdentityServer
+      run: dotnet restore MangoRestaurant/Mango.Service.Identity
+    - name: Build IdentityServer
+      run: dotnet build MangoRestaurant/Mango.Service.Identity --no-restore
     - name: Restore dependencies for ProductAPI
       run: dotnet restore MangoRestaurant/Mango.Services.ProductAPI
     - name: Build ProductAPI

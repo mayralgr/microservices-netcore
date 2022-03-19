@@ -3,33 +3,24 @@
 
 
 using System.ComponentModel.DataAnnotations;
-using static Mango.Service.Identity.Pages.Login.ViewModel;
 
-namespace Mango.Service.Identity.Pages.Register;
+namespace Mango.Service.Identity.Pages.Account.Register;
 
 public class RegisterViewModel
 {
-    [Required]
-    public string Username { get; set; }
-
-    [Required]
-    public string Email { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    [Required]
-    public string Password { get; set; }
-
-    public string ReturnUrl { get; set; }
-    public string RoleName { get; set; }
-
     public bool AllowRememberLogin { get; set; } = true;
     public bool EnableLocalLogin { get; set; } = true;
 
-    public IEnumerable<ExternalProvider> ExternalProviders { get; set; } = Enumerable.Empty<ExternalProvider>();
-    public IEnumerable<ExternalProvider> VisibleExternalProviders => ExternalProviders.Where(x => !String.IsNullOrWhiteSpace(x.DisplayName));
+    public IEnumerable<RegisterViewModel.ExternalProvider> ExternalProviders { get; set; } = Enumerable.Empty<ExternalProvider>();
+    public IEnumerable<RegisterViewModel.ExternalProvider> VisibleExternalProviders => ExternalProviders.Where(x => !String.IsNullOrWhiteSpace(x.DisplayName));
 
     public bool IsExternalLoginOnly => EnableLocalLogin == false && ExternalProviders?.Count() == 1;
     public string ExternalLoginScheme => IsExternalLoginOnly ? ExternalProviders?.SingleOrDefault()?.AuthenticationScheme : null;
-
-
+    public string RtrnUrl { get; set; }
+    public string UsrName { get; set; }
+    public class ExternalProvider
+    {
+        public string DisplayName { get; set; }
+        public string AuthenticationScheme { get; set; }
+    }
 }

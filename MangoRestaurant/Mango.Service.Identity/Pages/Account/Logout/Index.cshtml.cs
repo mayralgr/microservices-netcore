@@ -3,8 +3,10 @@ using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Services;
 using IdentityModel;
+using Mango.Service.Identity.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -16,12 +18,20 @@ public class Index : PageModel
 {
     private readonly IIdentityServerInteractionService _interaction;
     private readonly IEventService _events;
-
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
     [BindProperty] 
     public string LogoutId { get; set; }
 
-    public Index(IIdentityServerInteractionService interaction, IEventService events)
+    public Index(IIdentityServerInteractionService interaction, IEventService events,
+        UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager,
+        RoleManager<IdentityRole> roleManager)
     {
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _roleManager = roleManager;
         _interaction = interaction;
         _events = events;
     }
@@ -34,6 +44,7 @@ public class Index : PageModel
 
         if (User?.Identity.IsAuthenticated != true)
         {
+            await _signInManager.SignOutAsync();
             // if the user is not authenticated, then just show logged out page
             showLogoutPrompt = false;
         }

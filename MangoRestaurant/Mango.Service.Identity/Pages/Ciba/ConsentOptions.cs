@@ -2,7 +2,7 @@
 // See LICENSE in the project root for license information.
 
 
-namespace MangoRestaurant.Pages.Ciba;
+namespace Mango.Service.Identity.Pages.Ciba;
 
 public class ConsentOptions
 {

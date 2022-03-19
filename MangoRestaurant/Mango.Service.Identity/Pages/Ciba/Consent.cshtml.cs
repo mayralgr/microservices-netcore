@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace MangoRestaurant.Pages.Ciba;
+namespace Mango.Service.Identity.Pages.Ciba;
 
 [Authorize]
 [SecurityHeadersAttribute]

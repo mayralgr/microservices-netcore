@@ -3,7 +3,7 @@
 
 using Duende.IdentityServer.Models;
 
-namespace MangoRestaurant.Pages.Error;
+namespace Mango.Service.Identity.Pages.Error;
 
 public class ViewModel
 {

@@ -3,7 +3,7 @@
 // See LICENSE in the project root for license information.
 
 
-namespace MangoRestaurant.Pages.Logout;
+namespace Mango.Service.Identity.Pages.Logout;
 
 public class LoggedOutViewModel
 {

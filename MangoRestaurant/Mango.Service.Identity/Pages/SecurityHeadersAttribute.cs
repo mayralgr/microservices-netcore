@@ -5,7 +5,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MangoRestaurant.Pages;
+namespace Mango.Service.Identity.Pages;
 
 public class SecurityHeadersAttribute : ActionFilterAttribute
 {

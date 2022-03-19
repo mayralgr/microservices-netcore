@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MangoRestaurant.Pages.Login;
+namespace Mango.Service.Identity.Pages.Login;
 
 [SecurityHeaders]
 [AllowAnonymous]

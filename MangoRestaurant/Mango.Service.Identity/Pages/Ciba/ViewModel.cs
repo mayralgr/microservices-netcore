@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace MangoRestaurant.Pages.Ciba;
+namespace Mango.Service.Identity.Pages.Ciba;
 
 public class ViewModel
 {

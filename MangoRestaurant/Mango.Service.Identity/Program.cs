@@ -2,7 +2,6 @@ using Mango.Service.Identity;
 using Mango.Service.Identity.DBContexts;
 using Mango.Service.Identity.Initializer;
 using Mango.Service.Identity.Models;
-using MangoRestaurant;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

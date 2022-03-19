@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MangoRestaurant.Pages.Login;
+namespace Mango.Service.Identity.Pages.Login;
 
 public class ViewModel
 {

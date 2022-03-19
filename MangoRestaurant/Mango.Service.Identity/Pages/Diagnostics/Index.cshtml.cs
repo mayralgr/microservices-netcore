@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MangoRestaurant.Pages.Diagnostics;
+namespace Mango.Service.Identity.Pages.Diagnostics;
 
 [SecurityHeaders]
 [Authorize]

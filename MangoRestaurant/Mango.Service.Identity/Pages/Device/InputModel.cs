@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MangoRestaurant.Pages.Device;
+namespace Mango.Service.Identity.Pages.Device;
 
 public class InputModel
 {

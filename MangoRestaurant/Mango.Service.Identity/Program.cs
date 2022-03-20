@@ -1,8 +1,9 @@
+using Duende.IdentityServer.Services;
 using Mango.Service.Identity;
 using Mango.Service.Identity.DBContexts;
 using Mango.Service.Identity.Initializer;
 using Mango.Service.Identity.Models;
-using MangoRestaurant;
+using Mango.Service.Identity.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,7 @@ builder.Services.AddIdentityServer(options =>
 .AddTestUsers(TestUsers.Users);
 
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 // Add services to the container.
 //builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -41,8 +43,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
+app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
 app.UseStaticFiles();
 
 app.UseRouting();

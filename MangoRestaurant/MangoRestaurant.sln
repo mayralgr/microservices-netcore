@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{3F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mango.Services.ProductAPI", "Mango.Services.ProductAPI\Mango.Services.ProductAPI.csproj", "{C6312EC9-5ADB-4B1C-BA40-D4B8AEA8FAF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Service.Identity", "Mango.Service.Identity\Mango.Service.Identity.csproj", "{BE679868-46E7-4BD8-A203-4C306798FD07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mango.Service.Identity", "Mango.Service.Identity\Mango.Service.Identity.csproj", "{BE679868-46E7-4BD8-A203-4C306798FD07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

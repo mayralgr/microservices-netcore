@@ -2,7 +2,7 @@
 // See LICENSE in the project root for license information.
 
 
-namespace MangoRestaurant.Pages.Device;
+namespace Mango.Service.Identity.Pages.Device;
 
 public class DeviceOptions
 {

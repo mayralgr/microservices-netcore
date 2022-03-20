@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MangoRestaurant.Pages.Grants;
+namespace Mango.Service.Identity.Pages.Grants;
 
 public class ViewModel
 {

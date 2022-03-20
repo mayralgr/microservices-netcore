@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace MangoRestaurant.Pages.Consent;
+namespace Mango.Service.Identity.Pages.Consent;
 
 [Authorize]
 [SecurityHeadersAttribute]

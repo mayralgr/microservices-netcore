@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
 
-namespace MangoRestaurant.Pages.Error;
+namespace Mango.Service.Identity.Pages.Error;
 
 [AllowAnonymous]
 [SecurityHeaders]

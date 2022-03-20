@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace MangoRestaurant.Pages.Consent;
+namespace Mango.Service.Identity.Pages.Consent;
 
 public class InputModel
 {

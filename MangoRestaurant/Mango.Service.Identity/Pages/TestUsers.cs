@@ -9,7 +9,7 @@ using System.Text.Json;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Test;
 
-namespace MangoRestaurant;
+namespace Mango.Service.Identity;
 
 public class TestUsers
 {

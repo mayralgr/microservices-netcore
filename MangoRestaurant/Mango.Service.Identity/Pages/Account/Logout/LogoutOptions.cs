@@ -1,5 +1,5 @@
 
-namespace MangoRestaurant.Pages.Logout;
+namespace Mango.Service.Identity.Pages.Logout;
 
 public class LogoutOptions
 {

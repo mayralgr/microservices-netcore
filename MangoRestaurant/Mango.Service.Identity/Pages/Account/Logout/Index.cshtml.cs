@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MangoRestaurant.Pages.Logout;
+namespace Mango.Service.Identity.Pages.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]

@@ -4,7 +4,7 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MangoRestaurant.Pages.Logout;
+namespace Mango.Service.Identity.Pages.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]

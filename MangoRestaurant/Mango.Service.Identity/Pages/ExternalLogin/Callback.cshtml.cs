@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace MangoRestaurant.Pages.ExternalLogin;
+namespace Mango.Service.Identity.Pages.ExternalLogin;
 
 [AllowAnonymous]
 [SecurityHeaders]

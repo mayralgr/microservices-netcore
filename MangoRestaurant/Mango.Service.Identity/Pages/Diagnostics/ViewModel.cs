@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
-namespace MangoRestaurant.Pages.Diagnostics;
+namespace Mango.Service.Identity.Pages.Diagnostics;
 
 public class ViewModel
 {

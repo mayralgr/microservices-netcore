@@ -33,3 +33,5 @@ jobs:
       run: dotnet restore MangoRestaurant/Mango.Web
     - name: Build FrontEnd
       run: dotnet build MangoRestaurant/Mango.Web --no-restore
+    - name: Build ShoppingCart
+      run: dotnet build MangoRestaurant/Mango.Services.ShoppingCartApi --no-restore

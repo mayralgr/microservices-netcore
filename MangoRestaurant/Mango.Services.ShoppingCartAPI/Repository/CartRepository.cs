@@ -34,7 +34,7 @@ namespace Mango.Services.ShoppingCartAPI.Repository
         {
             Cart cart = _mapper.Map<CartDto, Cart>(cartDto);
             // check if product exist in db
-            var productInDB = _db.Products.FirstOrDefault(u => u.ProductId == cartDto.CartDetails.FirstOrDefault().ProductId);
+            var productInDB = await _db.Products.FirstOrDefaultAsync(u => u.ProductId == cartDto.CartDetails.FirstOrDefault().ProductId);
             if (productInDB == null) {
                 // create it
                 _db.Products.Add(cart.CartDetails.FirstOrDefault().Product);
@@ -76,8 +76,10 @@ namespace Mango.Services.ShoppingCartAPI.Repository
                 {
                     // it is has, update the count
                     cart.CartDetails.FirstOrDefault().Product = null; // can conflict
+                    cart.CartDetails.FirstOrDefault().CartHeaderId = cartHeaderFromDb.CartHeaderId;
                     cart.CartDetails.FirstOrDefault().Count+= CartDetailsFromDB.Count;
-                    _db.CartDetails.Add(cart.CartDetails.FirstOrDefault());
+                    cart.CartDetails.FirstOrDefault().CartDetailsId = CartDetailsFromDB.CartDetailsId;
+                    _db.CartDetails.Update(cart.CartDetails.FirstOrDefault());
                     await _db.SaveChangesAsync();
                 }
             }

@@ -1,6 +1,7 @@
 using Mango.Web;
 using Mango.Web.Services;
 using Mango.Web.Services.IServices;
+using Microsoft.AspNetCore.Authentication;
 using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,8 @@ builder.Services.AddAuthentication(options =>
     o.ClientId = "mango";
     o.ClientSecret = "mango"; // pass this to app settings
     o.ResponseType = "code";
+    o.ClaimActions.MapJsonKey("role","role", "role");
+    o.ClaimActions.MapJsonKey("sub", "sub", "sub");
     o.TokenValidationParameters.NameClaimType = "name";
     o.TokenValidationParameters.RoleClaimType = "role";
     o.Scope.Add("mango"); // to app settings too

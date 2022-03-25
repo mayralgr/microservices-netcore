@@ -53,8 +53,8 @@ namespace Mango.Web.Controllers
                 CartHeader = new CartHeaderDto()
                 {
                     UserId = User.Claims
-                    .Where(u => u.Type == ClaimTypes.NameIdentifier)?.FirstOrDefault()?.Value
-                }
+                    .Where(u => u.Type == "sub")?.FirstOrDefault()?.Value
+        }
             };
 
             CartDetailsDto cartDetails = new CartDetailsDto()

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Mango.Web.Controllers
 {
@@ -49,9 +50,10 @@ namespace Mango.Web.Controllers
         {
             CartDto cartDto = new()
             {
-                CartHeader = new CartHeaderDto
+                CartHeader = new CartHeaderDto()
                 {
-                    UserId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value
+                    UserId = User.Claims
+                    .Where(u => u.Type == ClaimTypes.NameIdentifier)?.FirstOrDefault()?.Value
                 }
             };
 
@@ -65,8 +67,7 @@ namespace Mango.Web.Controllers
             {
                 cartDetails.Product = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
             }
-            List<CartDetailsDto> cartDetailsDtos = new();
-            cartDetailsDtos.Add(cartDetails);
+            List<CartDetailsDto> cartDetailsDtos = new() { cartDetails };
             cartDto.CartDetails = cartDetailsDtos;
             var accessToken = await HttpContext.GetTokenAsync("access_token");
             var addToCartResponse = await _cartService.AddToCartAsync<ResponseDto>(cartDto, accessToken);

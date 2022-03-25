@@ -44,8 +44,8 @@ namespace Mango.Services.ShoppingCartAPI.Repository
             // check if header is null
             var cartHeaderFromDb = await _db.CartHeaders
                 .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.UserId == cartDto.CartHeader.UserId);
-            if (cartHeaderFromDb != null)
+                .FirstOrDefaultAsync(u => u.UserId == cart.CartHeader.UserId);
+            if (cartHeaderFromDb == null)
             {
                 // create heasder and details
                 _db.CartHeaders.Add(cart.CartHeader);

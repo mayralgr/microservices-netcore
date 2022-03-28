@@ -42,4 +42,4 @@ jobs:
     - name: Build ShoppingCart
       run: dotnet build MangoRestaurant/Mango.Services.ShoppingCartAPI --no-restore
     - name: Build CouponApi
-      run: dotnet build MangoRestaurant/Mango.Services.CouponApi --no-restore
+      run: dotnet build MangoRestaurant/Mango.Services.CouponAPI --no-restore

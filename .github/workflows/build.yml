@@ -23,17 +23,23 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies for IdentityServer
       run: dotnet restore MangoRestaurant/Mango.Service.Identity
-    - name: Build IdentityServer
-      run: dotnet build MangoRestaurant/Mango.Service.Identity --no-restore
     - name: Restore dependencies for ProductAPI
       run: dotnet restore MangoRestaurant/Mango.Services.ProductAPI
-    - name: Build ProductAPI
-      run: dotnet build MangoRestaurant/Mango.Services.ProductAPI --no-restore
     - name: Restore dependencies for FrontEnd
       run: dotnet restore MangoRestaurant/Mango.Web
-    - name: Build FrontEnd
-      run: dotnet build MangoRestaurant/Mango.Web --no-restore
     - name: Restore dependencies for ShoppingCartApi
       run: dotnet restore MangoRestaurant/Mango.Services.ShoppingCartAPI
+    - name: Restore dependencies for CouponApi
+      run: dotnet restore MangoRestaurant/Mango.Services.CouponAPI
+    
+    
+    - name: Build IdentityServer
+      run: dotnet build MangoRestaurant/Mango.Service.Identity --no-restore
+    - name: Build ProductAPI
+      run: dotnet build MangoRestaurant/Mango.Services.ProductAPI --no-restore
+    - name: Build FrontEnd
+      run: dotnet build MangoRestaurant/Mango.Web --no-restore
     - name: Build ShoppingCart
       run: dotnet build MangoRestaurant/Mango.Services.ShoppingCartAPI --no-restore
+    - name: Build CouponApi
+      run: dotnet build MangoRestaurant/Mango.Services.CouponApi --no-restore

@@ -115,5 +115,26 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
             }
             return _response;
         }
+
+        [HttpPost("Checkout")]
+        public async Task<object> Checkout(CheckoutHeaderDto checkoutHeaderDto)
+        {
+            try
+            {
+                CartDto cart = await _cartRepository.GetCartByUserId(checkoutHeaderDto.UserId);
+                if(cart == null)
+                {
+                    return BadRequest();
+                }
+                checkoutHeaderDto.CartDetails = cart.CartDetails;
+                // logic to add message to process order
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Mango.Services.ShoppingCartAPI.Models.Dto;
+﻿using Mango.MessageBus;
+using Mango.Services.ShoppingCartAPI.Models.Dto;
 using Mango.Services.ShoppingCartAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +11,15 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
     {
         private readonly ICartRepository _cartRepository;
         protected ResponseDto _response;
+        private IMessageBus _messageBus;
+        private readonly IConfiguration _configuration;
 
-        public CartAPIController(ICartRepository cartRepository)
+        public CartAPIController(ICartRepository cartRepository, IMessageBus messageBus, IConfiguration configuration)
         {
             _cartRepository = cartRepository;
             this._response = new ResponseDto();
+            _messageBus = messageBus;
+            _configuration = configuration;
         }
 
         [HttpGet("GetCart/{userId}")]
@@ -128,6 +133,8 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
                 }
                 checkoutHeaderDto.CartDetails = cart.CartDetails;
                 // logic to add message to process order
+                var topicName = _configuration.GetValue<string>("Azuretopic");
+                await _messageBus.PublishMessage(checkoutHeaderDto, topicName);
             }
             catch (Exception ex)
             {

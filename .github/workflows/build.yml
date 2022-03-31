@@ -31,7 +31,10 @@ jobs:
       run: dotnet restore MangoRestaurant/Mango.Services.ShoppingCartAPI
     - name: Restore dependencies for CouponApi
       run: dotnet restore MangoRestaurant/Mango.Services.CouponAPI
-    
+    - name: Restore dependencies for MessageBus package
+      run: dotnet restore MangoRestaurant/Mango.MessageBus
+    - name: Restore dependencies for OrderApi
+      run: dotnet restore MangoRestaurant/Mango.Services.OrderApi
     
     - name: Build IdentityServer
       run: dotnet build MangoRestaurant/Mango.Service.Identity --no-restore
@@ -43,3 +46,7 @@ jobs:
       run: dotnet build MangoRestaurant/Mango.Services.ShoppingCartAPI --no-restore
     - name: Build CouponApi
       run: dotnet build MangoRestaurant/Mango.Services.CouponAPI --no-restore
+    - name: Build MessageBus
+      run: dotnet build MangoRestaurant/Mango.MessageBus --no-restore
+    - name: Build OrderApi
+      run: dotnet build MangoRestaurant/Mango.Services.OrderApi --no-restore

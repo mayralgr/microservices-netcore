@@ -44,9 +44,11 @@ namespace Mango.Web.Controllers
                 if (response != null && response.IsSuccess)
                 {
                     return RedirectToAction(nameof(Confirmation));
-                } else
+                } 
+                else
                 {
-                    return View(cartDto);
+                    TempData["Error"] = response.DisplayMessage;
+                    return RedirectToAction(nameof(Checkout));
                 }
             }catch (Exception ex)
             {

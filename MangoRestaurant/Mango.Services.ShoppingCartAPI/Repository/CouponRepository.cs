@@ -7,11 +7,9 @@ namespace Mango.Services.ShoppingCartAPI.Repository
     public class CouponRepository : ICouponRepository
     {
         private readonly HttpClient _httpClient;
-        private readonly IConfiguration _configuration;
-        public CouponRepository(HttpClient httpClient, IConfiguration config)
+        public CouponRepository(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _configuration = config;
         }
         public async Task<CouponDto> GetCoupon(string couponName)
         {

@@ -35,6 +35,8 @@ jobs:
       run: dotnet restore MangoRestaurant/Mango.MessageBus
     - name: Restore dependencies for OrderAPI
       run: dotnet restore MangoRestaurant/Mango.Services.OrderAPI
+    - name: Restore dependencies for PaymentProcessor library
+      run: dotnet restore MangoRestaurant/PaymentProcessor
     
     - name: Build IdentityServer
       run: dotnet build MangoRestaurant/Mango.Service.Identity --no-restore
@@ -50,3 +52,5 @@ jobs:
       run: dotnet build MangoRestaurant/Mango.MessageBus --no-restore
     - name: Build OrderAPI
       run: dotnet build MangoRestaurant/Mango.Services.OrderAPI --no-restore
+    - name: Build PaymentProcessor
+      run: dotnet build MangoRestaurant/PaymentProcessor --no-restore

@@ -147,8 +147,9 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
                 }
                 checkoutHeaderDto.CartDetails = cart.CartDetails;
                 // logic to add message to process order
-                var topicName = _configuration.GetValue<string>("Azuretopic");
-                await _messageBus.PublishMessage(checkoutHeaderDto, topicName);
+                //var topicName = _configuration.GetValue<string>("Azuretopic");
+                var queueName = _configuration.GetValue<string>("ChechoutQueue");
+                await _messageBus.PublishMessage(checkoutHeaderDto, queueName);
                 await _cartRepository.ClearCart(checkoutHeaderDto.UserId);
             }
             catch (Exception ex)

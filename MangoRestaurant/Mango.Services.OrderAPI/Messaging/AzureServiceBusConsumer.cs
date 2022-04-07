@@ -11,9 +11,10 @@ namespace Mango.Services.OrderAPI.Messaging
     public class AzureServiceBusConsumer : IAzureServiceBusConsumer
     {
         private readonly string _subConnectionString;
-        private readonly string _subTopicName;
+        // private readonly string _subTopicName;
         private readonly string _subPaymentTopicName;
         private readonly string _subSubscriptionCheckOutName;
+        private readonly string _CheckoutQueueName;
         private readonly string _orderUpdatePaymentResultTopic;
         private readonly OrderRepository _orderRepository;
         private readonly IConfiguration _configuration;
@@ -25,13 +26,14 @@ namespace Mango.Services.OrderAPI.Messaging
             _orderRepository = orderRepository;
             _configuration = config;
             _subConnectionString = _configuration.GetConnectionString("ServiceBus");
-            _subTopicName = _configuration.GetValue<string>("CheckoutTopic");
+            // _subTopicName = _configuration.GetValue<string>("CheckoutTopic");
+            _CheckoutQueueName = _configuration.GetValue<string>("CheckoutQueue");
             _subPaymentTopicName = _configuration.GetValue<string>("PaymentTopic");
             _subSubscriptionCheckOutName = _configuration.GetValue<string>("SubscriptionCheckOutName");
             _orderUpdatePaymentResultTopic = _configuration.GetValue<string>("OrderUpdatePaymentResultTopic");
             var client = new ServiceBusClient(_subConnectionString);
             _messageBus = messageBus;
-            _checkOutProcessor = client.CreateProcessor(_subTopicName, _subSubscriptionCheckOutName);
+            _checkOutProcessor = client.CreateProcessor(_CheckoutQueueName);
             _paymenntResultProcessor = client.CreateProcessor(_orderUpdatePaymentResultTopic, _subSubscriptionCheckOutName);
 
         }
@@ -96,7 +98,7 @@ namespace Mango.Services.OrderAPI.Messaging
                     CVV = checkoutHeaderDto.CVV,
                     Email = checkoutHeaderDto.Email,
                     LastName = checkoutHeaderDto.LastName,
-                    Phone = checkoutHeaderDto.Phone
+                    Phone = checkoutHeaderDto.Phone,
                 };
                 foreach (var detail in checkoutHeaderDto.CartDetails)
                 {
@@ -118,7 +120,8 @@ namespace Mango.Services.OrderAPI.Messaging
                     CVV = orderHeader.CVV,
                     ExpiryMonthYear = orderHeader.ExpiryMonthYear,
                     OrderId = orderHeader.OrderHeaderId,
-                    OrderTotal = orderHeader.OrderTotal
+                    OrderTotal = orderHeader.OrderTotal,
+                    Email = orderHeader.Email
                 };
                 try
                 {

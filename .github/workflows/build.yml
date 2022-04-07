@@ -37,6 +37,10 @@ jobs:
       run: dotnet restore MangoRestaurant/Mango.Services.OrderAPI
     - name: Restore dependencies for PaymentProcessor library
       run: dotnet restore MangoRestaurant/PaymentProcessor
+    - name: Restore dependencies for Email processor
+      run: dotnet restore MangoRestaurant/Mango.Services.Email
+    - name: Restore dependencies for Gateway
+      run: dotnet restore MangoRestaurant/Mango.GatewaySolution
     
     - name: Build IdentityServer
       run: dotnet build MangoRestaurant/Mango.Service.Identity --no-restore
@@ -54,3 +58,7 @@ jobs:
       run: dotnet build MangoRestaurant/Mango.Services.OrderAPI --no-restore
     - name: Build PaymentProcessor
       run: dotnet build MangoRestaurant/PaymentProcessor --no-restore
+    - name: Build Email processor
+      run: dotnet build MangoRestaurant/Mango.Services.Email --no-restore
+    - name: Build Gateway
+      run: dotnet build MangoRestaurant/Mango.GatewaySolution

@@ -61,4 +61,4 @@ jobs:
     - name: Build Email processor
       run: dotnet build MangoRestaurant/Mango.Services.Email --no-restore
     - name: Build Gateway
-      run: dotnet build MangoRestaurant/Mango.GatewaySolution
+      run: dotnet build MangoRestaurant/Mango.GatewaySolution --no-restore

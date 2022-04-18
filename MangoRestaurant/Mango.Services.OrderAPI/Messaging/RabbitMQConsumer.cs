@@ -10,12 +10,12 @@ namespace Mango.Services.OrderAPI.Messaging
 {
     public class RabbitMQConsumer : BackgroundService, IRabbitMQConsumer
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly OrderRepository _orderRepository;
         private IConnection _connection;
         private IModel _channel;
         private IConfiguration _configuration;
         private string _queueName;
-        public RabbitMQConsumer(IOrderRepository orderRepository, IConfiguration config)
+        public RabbitMQConsumer(OrderRepository orderRepository, IConfiguration config)
         {
             _configuration = config;
             _orderRepository = orderRepository;
@@ -28,7 +28,7 @@ namespace Mango.Services.OrderAPI.Messaging
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
-            _channel.QueueDeclare(queue: _queueName, arguments: null);
+            _channel.QueueDeclare(queue: _queueName, arguments: null, exclusive: false, durable: true, autoDelete: false);
         }
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {

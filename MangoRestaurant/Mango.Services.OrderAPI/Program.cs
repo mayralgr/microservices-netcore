@@ -23,10 +23,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("OrderDBDefaultConnection"));
 
+builder.Services.AddHostedService<RabbitMQConsumer>();
 builder.Services.AddSingleton(new OrderRepository(optionBuilder.Options));
 //builder.Services.AddSingleton<IMessageBus, AzureServiceBus>();
-builder.Services.AddSingleton<IAzureServiceBusConsumer,AzureServiceBusConsumer>();
-builder.Services.AddSingleton<IMessageBus, AzureServiceBus>();
+//builder.Services.AddSingleton<IAzureServiceBusConsumer,AzureServiceBusConsumer>();
+//builder.Services.AddSingleton<IMessageBus, AzureServiceBus>();
 
 builder.Services.AddControllers();
 builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
@@ -92,5 +93,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseAzureServiceBusConsumer();
+//app.UseAzureServiceBusConsumer();
 app.Run();

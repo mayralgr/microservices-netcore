@@ -30,7 +30,7 @@ namespace Mango.Services.ShoppingCartAPI.RabbitMQSender
             };
             _connection = factory.CreateConnection();
             using var channel = _connection.CreateModel();
-            channel.QueueDeclare(queue: queueName, arguments: null);
+            channel.QueueDeclare(queue: queueName, arguments: null, exclusive: false, durable: true, autoDelete: false);
             var json = JsonConvert.SerializeObject(baseMessage);
             var body = Encoding.UTF8.GetBytes(json);
             channel.BasicPublish(exchange:"",routingKey: queueName, body: body, basicProperties: null);

@@ -17,12 +17,20 @@ namespace Mango.Services.PaymentAPI.Messaging
         private readonly string _paymentQueue;
         private readonly string _orderUpdatePaymentResultTopic;
         private readonly IProcessPayment _processPayment;
+        // direct
+        private readonly string _DirectExchange;
+
+        private readonly string _paymentEmailQueue;
+        private readonly string _paymentOrderQueue;
         public RabbitMQPaymentConsumer(IProcessPayment processPayment, IConfiguration config, IRabbitMQPaymentMessageSender sender)
         {
             _configuration = config;
             _processPayment = processPayment;
             _paymentQueue = _configuration.GetValue<string>("PaymentTopic");
-            _orderUpdatePaymentResultTopic = _configuration.GetValue<string>("ExchangeName");
+            _DirectExchange = _configuration.GetValue<string>("DirectName");
+            _paymentEmailQueue = _configuration.GetValue<string>("PaymentEmailQueueNameDirect");
+            _paymentOrderQueue = _configuration.GetValue<string>("PaymentOrderQueueNameDirect");
+            _orderUpdatePaymentResultTopic = _configuration.GetValue<string>("ExchangeName"); // fanout
             _rabbitMQPaymentMessageSender = sender;
             var factory = new ConnectionFactory
             {
@@ -69,7 +77,7 @@ namespace Mango.Services.PaymentAPI.Messaging
                     //await _messageBus.PublishMessage(updatePaymentResultMessage, _orderUpdatePaymentResultTopic);
                     //await args.CompleteMessageAsync(args.Message);
                     // new rabbitmq fanout
-                    _rabbitMQPaymentMessageSender.SendMessage(updatePaymentResultMessage, _orderUpdatePaymentResultTopic);
+                    _rabbitMQPaymentMessageSender.SendMessage(updatePaymentResultMessage, _DirectExchange,_paymentEmailQueue, _paymentOrderQueue);
 
                 }
             }

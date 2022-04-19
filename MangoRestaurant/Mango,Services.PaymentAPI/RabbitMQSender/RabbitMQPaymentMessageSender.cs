@@ -21,15 +21,22 @@ namespace Mango.Services.PaymentAPI.RabbitMQSender
             _password = _configuration.GetSection("RabbitMQ").GetValue<string>("password");
             
         }
-        public void SendMessage(BaseMessage baseMessage, string fanoutName)
+        public void SendMessage(BaseMessage baseMessage, string direct, string q1, string q2)
         {
             if (ConnectionExists())
             {
                 using var channel = _connection.CreateModel();
-                channel.ExchangeDeclare(exchange: fanoutName, ExchangeType.Fanout, true, false);
+                channel.ExchangeDeclare(exchange: direct, ExchangeType.Direct, true, false);
+                channel.QueueDeclare(q1,true,false,false);
+                channel.QueueDeclare(q2, true, false, false);
+
+                channel.QueueBind(q1, direct, q1);
+                channel.QueueBind(q2, direct, q2);
+
                 var json = JsonConvert.SerializeObject(baseMessage);
                 var body = Encoding.UTF8.GetBytes(json);
-                channel.BasicPublish(exchange: fanoutName, "", body: body, basicProperties: null);
+                channel.BasicPublish(exchange: direct, q1, body: body, basicProperties: null);
+                channel.BasicPublish(exchange: direct, q2, body: body, basicProperties: null);
             }
             else
             {

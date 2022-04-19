@@ -19,7 +19,8 @@ namespace Mango.Services.OrderAPI.Messaging
         {
             _configuration = config;
             _orderRepository = orderRepository;
-            _ExchangeName = _configuration.GetValue<string>("ExchangeName");
+            _ExchangeName = _configuration.GetValue<string>("DirectName");
+            _queueName = _configuration.GetValue<string>("PaymentOrderQueueNameDirect");
             var factory = new ConnectionFactory
             {
                 HostName = _configuration.GetSection("RabbitMQ").GetValue<string>("hostname"),
@@ -28,9 +29,9 @@ namespace Mango.Services.OrderAPI.Messaging
             };
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange: _ExchangeName, ExchangeType.Fanout, arguments: null, durable: true, autoDelete: false);
-            _queueName = _channel.QueueDeclare().QueueName;
-            _channel.QueueBind(_queueName, _ExchangeName, "");
+            _channel.ExchangeDeclare(exchange: _ExchangeName, ExchangeType.Direct, arguments: null, durable: true, autoDelete: false);
+            _channel.QueueDeclare(queue: _queueName, arguments: null, exclusive: false, durable: true, autoDelete: false);
+            _channel.QueueBind(_queueName, _ExchangeName, _queueName);
         }
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {

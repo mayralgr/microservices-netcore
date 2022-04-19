@@ -6,7 +6,7 @@ namespace Mango.Services.CouponAPI.Models
     {
         [Key]
         public int CouponId { get; set; }
-        public string CouponCode { get; set; }
+        public string? CouponCode { get; set; }
         public double DiscountAmount { get; set; }
     }
 }

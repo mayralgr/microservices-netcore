@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Text;
 
-namespace Mango.Services.ShoppingCartAPI.RabbitMQSender
+namespace Mango.Services.OrderAPI.RabbitMQSender
 {
-    public class RabbitMQCartMessageSender : IRabbitMQCartMessageSender
+    public class RabbitMQOrderMessageSender : IRabbitMQOrderMessageSender
     {
         private readonly IConfiguration _configuration;
         private readonly string _hostname;
@@ -13,7 +13,7 @@ namespace Mango.Services.ShoppingCartAPI.RabbitMQSender
         private readonly string _password;
         private IConnection _connection;
 
-        public RabbitMQCartMessageSender(IConfiguration config)
+        public RabbitMQOrderMessageSender(IConfiguration config)
         {
             _configuration = config;
             _hostname = _configuration.GetSection("RabbitMQ").GetValue<string>("hostname");

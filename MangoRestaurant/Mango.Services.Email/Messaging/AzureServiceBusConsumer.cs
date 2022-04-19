@@ -15,9 +15,9 @@ namespace Mango.Services.Email.Messaging
         private readonly EmailRepository _emailRepository;
         private readonly IConfiguration _configuration;
         private ServiceBusProcessor orderUpdatePaymentsStatusProcessor;
-        public AzureServiceBusConsumer(IConfiguration config, EmailRepository orderRepository)
+        public AzureServiceBusConsumer(IConfiguration config, EmailRepository emailRepository)
         {
-            _emailRepository = orderRepository;
+            _emailRepository = emailRepository;
             _configuration = config;
             _subConnectionString = _configuration.GetConnectionString("ServiceBus");
             _subcriptionEmail = _configuration.GetValue<string>("EmailSubscriptionName");

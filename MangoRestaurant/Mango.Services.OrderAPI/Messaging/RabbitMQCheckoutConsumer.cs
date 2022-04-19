@@ -1,5 +1,6 @@
 ﻿using Mango.Services.OrderAPI.Messages;
 using Mango.Services.OrderAPI.Models;
+using Mango.Services.OrderAPI.RabbitMQSender;
 using Mango.Services.OrderAPI.Repository;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -8,18 +9,22 @@ using System.Text;
 
 namespace Mango.Services.OrderAPI.Messaging
 {
-    public class RabbitMQConsumer : BackgroundService, IRabbitMQConsumer
+    public class RabbitMQCheckoutConsumer : BackgroundService, IRabbitMQCheckoutConsumer
     {
         private readonly OrderRepository _orderRepository;
+        private IRabbitMQOrderMessageSender _rabbitMQOrderMessageSender;
         private IConnection _connection;
         private IModel _channel;
         private IConfiguration _configuration;
         private string _queueName;
-        public RabbitMQConsumer(OrderRepository orderRepository, IConfiguration config)
+        private string _paymentQueue;
+        public RabbitMQCheckoutConsumer(OrderRepository orderRepository, IConfiguration config, IRabbitMQOrderMessageSender rabbitMQOrderMessageSender)
         {
             _configuration = config;
+            _rabbitMQOrderMessageSender = rabbitMQOrderMessageSender;
             _orderRepository = orderRepository;
             _queueName = _configuration.GetValue<string>("CheckoutQueue");
+            _paymentQueue = _configuration.GetValue<string>("PaymentTopic");
             var factory = new ConnectionFactory
             {
                 HostName = "localhost",
@@ -95,6 +100,8 @@ namespace Mango.Services.OrderAPI.Messaging
                     //await _messageBus.PublishMessage(paymentRequestMessage, _subPaymentTopicName);
                     //await args.CompleteMessageAsync(args.Message);
                     // new rabbitmq queue
+                    _rabbitMQOrderMessageSender.SendMessage(paymentRequestMessage, _paymentQueue);
+
                 }
                 catch (Exception ex)
                 {

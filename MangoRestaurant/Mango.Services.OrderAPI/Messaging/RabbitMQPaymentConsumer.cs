@@ -1,0 +1,65 @@
+﻿using Mango.Services.OrderAPI.Messages;
+using Mango.Services.OrderAPI.Repository;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text;
+
+namespace Mango.Services.OrderAPI.Messaging
+{
+    public class RabbitMQPaymentConsumer : BackgroundService
+    {
+        private IConnection _connection;
+        private IModel _channel;
+        private IConfiguration _configuration;
+        private readonly string _ExchangeName;
+        private string _queueName;
+        private readonly OrderRepository _orderRepository;
+        public RabbitMQPaymentConsumer(IConfiguration config, OrderRepository orderRepository)
+        {
+            _configuration = config;
+            _orderRepository = orderRepository;
+            _ExchangeName = _configuration.GetValue<string>("ExchangeName");
+            var factory = new ConnectionFactory
+            {
+                HostName = _configuration.GetSection("RabbitMQ").GetValue<string>("hostname"),
+                UserName = _configuration.GetSection("RabbitMQ").GetValue<string>("userName"),
+                Password = _configuration.GetSection("RabbitMQ").GetValue<string>("password")
+            };
+            _connection = factory.CreateConnection();
+            _channel = _connection.CreateModel();
+            _channel.ExchangeDeclare(exchange: _ExchangeName, ExchangeType.Fanout, arguments: null, durable: true, autoDelete: false);
+            _queueName = _channel.QueueDeclare().QueueName;
+            _channel.QueueBind(_queueName, _ExchangeName, "");
+        }
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            stoppingToken.ThrowIfCancellationRequested();
+            var consumer = new EventingBasicConsumer(_channel);
+            consumer.Received += (ch, ea) =>
+            {
+                var body = Encoding.UTF8.GetString(ea.Body.ToArray());
+                UpdatePaymentResultMessage paymentResultMessage = JsonConvert.DeserializeObject<UpdatePaymentResultMessage>(body); HandleMessage(paymentResultMessage).GetAwaiter().GetResult();
+                _channel.BasicAck(ea.DeliveryTag, false);
+            };
+            _channel.BasicConsume(_queueName, false, consumer);
+            return Task.CompletedTask;
+        }
+
+        private async Task HandleMessage(UpdatePaymentResultMessage paymentResultMessage)
+        {
+            try
+            {
+                if (paymentResultMessage != null)
+                {
+                    await _orderRepository.UpdateOrderPaymentStatus(paymentResultMessage.OrderId, paymentResultMessage.Status);
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+    }
+}
